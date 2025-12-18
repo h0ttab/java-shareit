@@ -25,16 +25,17 @@ public class ItemService {
         Item item = repository.create(
                 new Item(
                         idGenerator.getNextId(),
-                        dto.getName(),
-                        dto.getDescription(),
-                        dto.getAvailable(),
                         ownerId,
-                        dto.getRequest()
+                        dto.request(),
+                        dto.name(),
+                        dto.description(),
+                        dto.available()
                 )
         );
         return mapper.toItemReturnDto(item);
     }
 
     @Component
-    private static class ItemIdGenerator extends IdGenerator {}
+    private static class ItemIdGenerator extends IdGenerator {
+    }
 }

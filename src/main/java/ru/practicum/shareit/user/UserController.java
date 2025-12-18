@@ -7,9 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.user.dto.*;
 
-/**
- * TODO Sprint add-controllers.
- */
 @RestController
 @RequestMapping(path = "/users")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)

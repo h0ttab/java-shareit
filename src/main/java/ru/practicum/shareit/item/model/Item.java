@@ -8,9 +8,9 @@ import ru.practicum.shareit.request.model.ItemRequest;
 @AllArgsConstructor
 public class Item {
     private final long id;
+    private final long ownerId;
+    private final ItemRequest request;
     private String name;
     private String description;
     private boolean available;
-    private final long ownerId;
-    private final ItemRequest request;
 }

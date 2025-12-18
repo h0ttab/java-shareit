@@ -26,17 +26,17 @@ public class UserService {
     private final Set<String> uniqueEmailSet = new HashSet<>();
 
     public UserReturnDto create(UserCreateDto dto) {
-        validator.validateUniqueEmail(dto.getEmail(), uniqueEmailSet);
+        validator.validateUniqueEmail(dto.email(), uniqueEmailSet);
 
         User user = repository.create(
-                new User(idGenerator.getNextId(), dto.getName(), dto.getEmail())
+                new User(idGenerator.getNextId(), dto.name(), dto.email())
         );
         return mapper.toUserReturnDto(user);
     }
 
     public UserReturnDto get(long userId) {
         User user = repository.get(userId).orElseThrow(
-                () -> new NotFoundException(String.format("Пользователь с ID %d не найден", userId))
+                () -> new NotFoundException(String.format("Пользователь с id %d не найден", userId))
         );
         return mapper.toUserReturnDto(user);
     }
@@ -46,17 +46,17 @@ public class UserService {
     }
 
     public UserReturnDto update(UserUpdateDto dto, long userId) {
-        validator.validateUniqueEmail(dto.getEmail(), uniqueEmailSet);
+        validator.validateUniqueEmail(dto.email(), uniqueEmailSet);
 
         User user = repository.get(userId).orElseThrow(
-                () -> new NotFoundException(String.format("Пользователь с ID %d не найден", userId))
+                () -> new NotFoundException(String.format("Пользователь с id %d не найден", userId))
         );
 
         User userUpdated = repository.update(
                 new User(
-                    userId,
-                    dto.getName() == null ? user.getName() : dto.getName(),
-                    dto.getEmail() == null ? user.getEmail() : dto.getEmail()
+                        userId,
+                        dto.name() == null ? user.getName() : dto.name(),
+                        dto.email() == null ? user.getEmail() : dto.email()
                 )
         );
         return mapper.toUserReturnDto(userUpdated);

@@ -1,16 +1,10 @@
 package ru.practicum.shareit.user.dto;
 
-import jakarta.validation.constraints.*;
-import lombok.Data;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
 
-@Data
-public class UserUpdateDto {
-    @Pattern(
-            regexp = "^\\s*\\S.*$",
-            message = "Имя пользователя не может быть пустым или состоять из пробелов"
-    )
-    private final String name;
-
-    @Email(message = "Указан некорректный формат email")
-    private final String email;
+public record UserUpdateDto(@Pattern(
+        regexp = "^\\s*\\S.*$",
+        message = "Имя пользователя не может быть пустым или состоять из пробелов"
+) String name, @Email(message = "Указан некорректный формат email") String email) {
 }

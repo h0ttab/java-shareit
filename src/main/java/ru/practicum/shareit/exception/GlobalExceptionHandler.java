@@ -46,13 +46,13 @@ public class GlobalExceptionHandler {
         private final int statusCode;
         private final String message;
 
-        public ErrorResponse (int statusCode, Exception exception) {
+        public ErrorResponse(int statusCode, Exception exception) {
             log.error(exception.getMessage());
             this.statusCode = statusCode;
             this.message = exception.getMessage();
         }
 
-        public ErrorResponse (int statusCode, String message) {
+        public ErrorResponse(int statusCode, String message) {
             log.error(message);
             this.statusCode = statusCode;
             this.message = message;
