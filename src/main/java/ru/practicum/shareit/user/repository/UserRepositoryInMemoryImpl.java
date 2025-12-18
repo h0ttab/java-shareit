@@ -24,11 +24,9 @@ public class UserRepositoryInMemoryImpl implements UserRepository {
     }
 
     @Override
-    public Optional<User> update(User user) {
-        // Вернёт null если пользователь не существует
-        return Optional.ofNullable(
-                userStorage.replace(user.getId(), user)
-        );
+    public User update(User user) {
+        userStorage.replace(user.getId(), user);
+        return user;
     }
 
     @Override

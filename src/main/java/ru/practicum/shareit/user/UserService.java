@@ -7,10 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import ru.practicum.shareit.exception.EmailAlreadyExistsException;
 import ru.practicum.shareit.exception.NotFoundException;
-import ru.practicum.shareit.user.dto.UserCreateDto;
-import ru.practicum.shareit.user.dto.UserReturnDto;
+import ru.practicum.shareit.user.dto.*;
 import ru.practicum.shareit.user.mapper.UserMapper;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
@@ -47,6 +45,23 @@ public class UserService {
 
     public void delete(long userId) {
         repository.delete(userId);
+    }
+
+    public UserReturnDto update(UserUpdateDto dto, long userId) {
+        validator.validateUniqueEmail(dto.getEmail(), uniqueEmailSet);
+
+        User user = repository.get(userId).orElseThrow(
+                () -> new NotFoundException(String.format("Пользователь с ID %d не найден", userId))
+        );
+
+        User userUpdated = repository.update(
+                new User(
+                    userId,
+                    dto.getName() == null ? user.getName() : dto.getName(),
+                    dto.getEmail() == null ? user.getEmail() : dto.getEmail()
+                )
+        );
+        return mapper.toUserReturnDto(userUpdated);
     }
 
     @Component

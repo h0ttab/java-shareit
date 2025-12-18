@@ -9,7 +9,7 @@ public interface UserRepository {
 
     Optional<User> get(long userId);
 
-    Optional<User> update(User user);
+    User update(User user);
 
     void delete(long userId);
 }
