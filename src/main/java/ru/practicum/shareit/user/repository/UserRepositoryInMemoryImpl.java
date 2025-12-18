@@ -2,17 +2,17 @@ package ru.practicum.shareit.user.repository;
 
 import java.util.*;
 
+import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.user.model.User;
 
+@Repository
 public class UserRepositoryInMemoryImpl implements UserRepository {
     private final Map<Long, User> userStorage = new HashMap<>();
 
     @Override
-    public Optional<User> create(User user) {
-        // Вернёт null если всё ОК
-        return Optional.ofNullable(
-                userStorage.putIfAbsent(user.getId(), user)
-        );
+    public User create(User user) {
+        userStorage.put(user.getId(), user);
+        return user;
     }
 
     @Override
