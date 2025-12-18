@@ -13,6 +13,7 @@ import ru.practicum.shareit.user.mapper.UserMapper;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repository.UserRepository;
 import ru.practicum.shareit.util.IdGenerator;
+import ru.practicum.shareit.validation.UserValidator;
 
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Service
@@ -20,15 +21,12 @@ public class UserService {
     private final UserRepository repository;
     private final UserIdGenerator idGenerator;
     private final UserMapper mapper;
+    private final UserValidator validator;
 
     private final Set<String> uniqueEmailSet = new HashSet<>();
 
     public UserReturnDto create(UserCreateDto dto) {
-        boolean isUniqueEmail = uniqueEmailSet.add(dto.getEmail());
-
-        if (!isUniqueEmail) {
-            throw new EmailAlreadyExistsException(dto.getEmail());
-        }
+        validator.validateUniqueEmail(dto.getEmail(), uniqueEmailSet);
 
         User user = repository.create(
                 new User(idGenerator.getNextId(), dto.getName(), dto.getEmail())
