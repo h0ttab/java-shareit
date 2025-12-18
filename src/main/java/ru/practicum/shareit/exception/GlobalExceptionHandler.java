@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
 
     @Setter
     @Getter
-    private static class ErrorResponse {
+    public static class ErrorResponse {
         private final int statusCode;
         private final String message;
 
