@@ -10,10 +10,19 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler({EmailAlreadyExistsException.class})
-    public ErrorResponse handleEmailAlreadyExistsException(Exception e) {
-        log.error(e.getMessage());
-        return new ErrorResponse(409, e.getMessage());
+    public ErrorResponse handleEmailAlreadyExistsException(Exception exception) {
+        return new ErrorResponse(409, exception);
     }
 
-    public record ErrorResponse(int statusCode, String error) {}
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotFoundException.class)
+    public ErrorResponse handleNotFoundException(Exception exception) {
+        return new ErrorResponse(404, exception);
+    }
+
+    public record ErrorResponse(int statusCode, Exception exception) {
+        public ErrorResponse {
+            log.error(exception.getMessage());
+        }
+    }
 }
