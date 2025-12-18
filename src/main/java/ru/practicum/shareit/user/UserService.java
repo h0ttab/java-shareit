@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.exception.EmailAlreadyExistsException;
+import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.user.dto.UserCreateDto;
 import ru.practicum.shareit.user.dto.UserReturnDto;
 import ru.practicum.shareit.user.mapper.UserMapper;
@@ -35,6 +36,17 @@ public class UserService {
                 new User(idGenerator.getNextId(), dto.getName(), dto.getEmail())
         );
         return mapper.toUserReturnDto(user);
+    }
+
+    public UserReturnDto get(long userId) {
+        User user = repository.get(userId).orElseThrow(
+                () -> new NotFoundException(String.format("Пользователь с ID %d не найден", userId))
+        );
+        return mapper.toUserReturnDto(user);
+    }
+
+    public void delete(long userId) {
+        repository.delete(userId);
     }
 
     @Component
