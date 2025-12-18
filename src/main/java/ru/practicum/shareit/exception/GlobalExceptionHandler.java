@@ -1,5 +1,7 @@
 package ru.practicum.shareit.exception;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +22,16 @@ public class GlobalExceptionHandler {
         return new ErrorResponse(404, exception);
     }
 
-    public record ErrorResponse(int statusCode, Exception exception) {
-        public ErrorResponse {
+    @Setter
+    @Getter
+    private static class ErrorResponse {
+        private final int statusCode;
+        private final String message;
+
+        public ErrorResponse (int statusCode, Exception exception) {
             log.error(exception.getMessage());
+            this.statusCode = statusCode;
+            this.message = exception.getMessage();
         }
     }
 }
