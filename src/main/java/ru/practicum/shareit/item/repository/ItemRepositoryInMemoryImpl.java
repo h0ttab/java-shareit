@@ -26,6 +26,16 @@ public class ItemRepositoryInMemoryImpl implements ItemRepository {
     }
 
     @Override
+    public List<Item> search(String searchQuery) {
+        return itemStorage.values().stream().filter(item -> {
+            String description = item.getDescription().toLowerCase();
+            String name = item.getName().toLowerCase();
+            String normalizedQuery = searchQuery.toLowerCase();
+            return (description.contains(normalizedQuery) || name.contains(normalizedQuery)) && item.isAvailable();
+        }).toList();
+    }
+
+    @Override
     public Item update(Item item) {
         itemStorage.replace(item.getId(), item);
         return item;

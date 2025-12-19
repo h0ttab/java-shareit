@@ -1,5 +1,6 @@
 package ru.practicum.shareit.item;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
@@ -68,6 +69,13 @@ public class ItemService {
 
     public List<ItemReturnDto> getAllByOwner(long ownerId) {
         return repository.getAllByOwner(ownerId).stream().map(mapper::toItemReturnDto).toList();
+    }
+
+    public List<ItemReturnDto> search(String searchQuery) {
+        if (searchQuery.isBlank()) {
+            return new ArrayList<>();
+        }
+        return repository.search(searchQuery).stream().map(mapper::toItemReturnDto).toList();
     }
 
     @Component

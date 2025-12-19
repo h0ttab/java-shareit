@@ -12,6 +12,8 @@ public interface ItemRepository {
 
     List<Item> getAllByOwner(long ownerId);
 
+    List<Item> search(String searchQuery);
+
     Item update(Item item);
 
     void delete(long itemId);

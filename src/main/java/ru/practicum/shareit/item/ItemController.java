@@ -31,6 +31,11 @@ public class ItemController {
         return service.getAllByOwner(userId);
     }
 
+    @GetMapping("/search")
+    public List<ItemReturnDto> search(@RequestParam String text) {
+        return service.search(text);
+    }
+
     @PatchMapping("/{itemId}")
     public ItemReturnDto update(@Valid @NotNull @RequestBody ItemUpdateDto dto,
                                 @RequestHeader("X-Sharer-User-Id") long userId,
