@@ -14,10 +14,11 @@ import ru.practicum.shareit.item.dto.*;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class ItemController {
     private final ItemService service;
+    private final String USER_ID_HEADER = "X-Sharer-User-Id";
 
     @PostMapping
     public ItemReturnDto create(@Valid @NotNull @RequestBody ItemCreateDto dto,
-                                @RequestHeader("X-Sharer-User-Id") long userId) {
+                                @RequestHeader(USER_ID_HEADER) long userId) {
         return service.create(dto, userId);
     }
 
@@ -27,7 +28,7 @@ public class ItemController {
     }
 
     @GetMapping
-    public List<ItemReturnDto> getAllByOwner(@RequestHeader("X-Sharer-User-Id") long userId) {
+    public List<ItemReturnDto> getAllByOwner(@RequestHeader(USER_ID_HEADER) long userId) {
         return service.getAllByOwner(userId);
     }
 
@@ -38,13 +39,13 @@ public class ItemController {
 
     @PatchMapping("/{itemId}")
     public ItemReturnDto update(@Valid @NotNull @RequestBody ItemUpdateDto dto,
-                                @RequestHeader("X-Sharer-User-Id") long userId,
+                                @RequestHeader(USER_ID_HEADER) long userId,
                                 @PathVariable long itemId) {
         return service.update(dto, userId, itemId);
     }
 
     @DeleteMapping("/{itemId}")
-    public void delete(@RequestHeader("X-Sharer-User-Id") long userId,
+    public void delete(@RequestHeader(USER_ID_HEADER) long userId,
                        @PathVariable long itemId) {
         service.delete(userId, itemId);
     }
