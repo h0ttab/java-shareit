@@ -43,6 +43,6 @@ public class ItemRepositoryInMemoryImpl implements ItemRepository {
 
     @Override
     public void delete(long itemId) {
-
+        itemStorage.remove(itemId);
     }
 }

@@ -78,6 +78,11 @@ public class ItemService {
         return repository.search(searchQuery).stream().map(mapper::toItemReturnDto).toList();
     }
 
+    public void delete(long ownerId, long itemId) {
+        itemValidator.validateCorrectOwner(ownerId, itemId);
+        repository.delete(itemId);
+    }
+
     @Component
     private static class ItemIdGenerator extends IdGenerator {
     }

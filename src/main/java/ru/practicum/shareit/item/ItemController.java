@@ -42,4 +42,10 @@ public class ItemController {
                                 @PathVariable long itemId) {
         return service.update(dto, userId, itemId);
     }
+
+    @DeleteMapping("/{itemId}")
+    public void delete(@RequestHeader("X-Sharer-User-Id") long userId,
+                       @PathVariable long itemId) {
+        service.delete(userId, itemId);
+    }
 }
