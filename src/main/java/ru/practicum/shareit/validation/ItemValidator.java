@@ -24,10 +24,12 @@ public class ItemValidator {
     }
 
     public void validateCorrectOwner(long headerOwnerId, long itemId) {
-        if (
-                !isCorrectOwner(headerOwnerId, itemRepository.get(itemId).orElseThrow(
-                        () -> new NotFoundException(String.format("Вещь с id %d не найдена", itemId))).getOwnerId())
-        ) {
+        if (!isCorrectOwner(
+                headerOwnerId,
+                itemRepository.get(itemId).orElseThrow(
+                        () -> new NotFoundException(String.format("Вещь с id %d не найдена", itemId))
+                ).getOwnerId()
+        )) {
             throw new NotFoundException(
                     String.format("Пользователь id %d не является владельцем вещи id %d", headerOwnerId, itemId)
             );
