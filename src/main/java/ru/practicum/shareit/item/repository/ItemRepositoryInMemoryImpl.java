@@ -17,12 +17,18 @@ public class ItemRepositoryInMemoryImpl implements ItemRepository {
 
     @Override
     public Optional<Item> get(long itemId) {
-        return Optional.empty();
+        return Optional.ofNullable(itemStorage.get(itemId));
+    }
+
+    @Override
+    public List<Item> getAllByOwner(long ownerId) {
+        return itemStorage.values().stream().filter(item -> item.getOwnerId() == ownerId).toList();
     }
 
     @Override
     public Item update(Item item) {
-        return null;
+        itemStorage.replace(item.getId(), item);
+        return item;
     }
 
     @Override

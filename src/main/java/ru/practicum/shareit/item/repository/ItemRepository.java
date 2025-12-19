@@ -1,5 +1,6 @@
 package ru.practicum.shareit.item.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import ru.practicum.shareit.item.model.Item;
@@ -8,6 +9,8 @@ public interface ItemRepository {
     Item create(Item item);
 
     Optional<Item> get(long itemId);
+
+    List<Item> getAllByOwner(long ownerId);
 
     Item update(Item item);
 
