@@ -9,12 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.item.dto.*;
 
+import static ru.practicum.shareit.util.Constants.USER_ID_HEADER;
+
 @RestController
 @RequestMapping("/items")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class ItemController {
     private final ItemService service;
-    private final String USER_ID_HEADER = "X-Sharer-User-Id";
 
     @PostMapping
     public ItemReturnDto create(@Valid @NotNull @RequestBody ItemCreateDto dto,
