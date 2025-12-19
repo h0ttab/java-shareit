@@ -11,7 +11,6 @@ import ru.practicum.shareit.item.dto.*;
 import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.repository.ItemRepository;
-import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.util.IdGenerator;
 import ru.practicum.shareit.validation.ItemValidator;
 import ru.practicum.shareit.validation.UserValidator;

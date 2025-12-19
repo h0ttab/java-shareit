@@ -2,7 +2,7 @@ package ru.practicum.shareit.item.dto;
 
 import jakarta.validation.constraints.Pattern;
 
-public record ItemUpdateDto (
+public record ItemUpdateDto(
         @Pattern(regexp = "^\\s*\\S.*$", message = "Название вещи не может быть пустым или состоять из пробелов")
         String name,
 
@@ -10,4 +10,5 @@ public record ItemUpdateDto (
         String description,
 
         Boolean available
-) {}
+) {
+}
