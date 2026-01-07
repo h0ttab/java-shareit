@@ -25,12 +25,12 @@ public class UserValidator {
     }
 
     public void validateExistingUser(long userId) {
-        if (isExistingUser(userId)) {
+        if (!isExistingUser(userId)) {
             throw new NotFoundException(String.format("Пользователь с ID %d не найден", userId));
         }
     }
 
     private boolean isExistingUser(long userId) {
-        return userRepository.get(userId).isEmpty();
+        return userRepository.findById(userId).isPresent();
     }
 }

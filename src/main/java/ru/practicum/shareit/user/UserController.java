@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.user.dto.*;
+import ru.practicum.shareit.user.service.UserService;
 
 @RestController
 @RequestMapping(path = "/users")
@@ -20,12 +21,12 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public UserReturnDto get(@PathVariable long userId) {
-        return service.get(userId);
+        return service.getById(userId);
     }
 
     @PatchMapping("/{userId}")
     public UserReturnDto update(@RequestBody UserUpdateDto dto, @PathVariable long userId) {
-        return service.update(dto, userId);
+        return service.update(userId, dto);
     }
 
     @DeleteMapping("/{userId}")
