@@ -40,6 +40,18 @@ public class GlobalExceptionHandler {
         return new ErrorResponse(400, exception);
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BadRequestException.class)
+    public ErrorResponse handleBadRequestException(BadRequestException exception) {
+        return new ErrorResponse(400, exception);
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(ForbiddenException.class)
+    public ErrorResponse handleForbiddenException(ForbiddenException exception) {
+        return new ErrorResponse(403, exception);
+    }
+
     @Setter
     @Getter
     public static class ErrorResponse {
