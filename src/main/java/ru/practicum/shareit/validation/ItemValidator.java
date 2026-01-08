@@ -20,15 +20,15 @@ public class ItemValidator {
     }
 
     private boolean isExistingItem(long itemId) {
-        return itemRepository.get(itemId).isPresent();
+        return itemRepository.existsById(itemId);
     }
 
     public void validateCorrectOwner(long headerOwnerId, long itemId) {
         if (!isCorrectOwner(
                 headerOwnerId,
-                itemRepository.get(itemId).orElseThrow(
+                itemRepository.findById(itemId).orElseThrow(
                         () -> new NotFoundException(String.format("Вещь с id %d не найдена", itemId))
-                ).getOwnerId()
+                ).getOwner().getId()
         )) {
             throw new NotFoundException(
                     String.format("Пользователь id %d не является владельцем вещи id %d", headerOwnerId, itemId)

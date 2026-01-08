@@ -6,13 +6,11 @@ import lombok.Data;
 import ru.practicum.shareit.booking.dto.BookingReturnDto;
 
 @Data
-public class ItemReturnDto {
+public class ItemOwnerDto {
     private Long id;
     private String name;
     private String description;
-    private Boolean available;
-    private Long ownerId;
-    private Long requestId;
+    private boolean available;
     private BookingReturnDto lastBooking;
     private BookingReturnDto nextBooking;
     private List<CommentReturnDto> comments;
