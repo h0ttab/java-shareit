@@ -34,6 +34,7 @@ public class ItemServiceImpl implements ItemService {
     private static final Sort COMMENTS_SORT = Sort.by(Sort.Direction.ASC, "created");
     private static final Sort BOOKINGS_SORT = Sort.by(Sort.Direction.ASC, "start");
 
+    private final BookingMapper bookingMapper;
     private final ItemMapper itemMapper;
     private final CommentMapper commentMapper;
     private final UserRepository userRepository;
@@ -91,11 +92,11 @@ public class ItemServiceImpl implements ItemService {
             List<Booking> approvedBookings = loadApprovedBookingsForItem(item.getId());
 
             selectLastBooking(approvedBookings, now)
-                    .map(BookingMapper::toDto)
+                    .map(bookingMapper::toDto)
                     .ifPresent(dto::setLastBooking);
 
             selectNextBooking(approvedBookings, now)
-                    .map(BookingMapper::toDto)
+                    .map(bookingMapper::toDto)
                     .ifPresent(dto::setNextBooking);
         }
 
@@ -243,11 +244,11 @@ public class ItemServiceImpl implements ItemService {
         dto.setComments(comments);
 
         selectLastBooking(approvedBookingsForItem, now)
-                .map(BookingMapper::toDto)
+                .map(bookingMapper::toDto)
                 .ifPresent(dto::setLastBooking);
 
         selectNextBooking(approvedBookingsForItem, now)
-                .map(BookingMapper::toDto)
+                .map(bookingMapper::toDto)
                 .ifPresent(dto::setNextBooking);
 
         return dto;

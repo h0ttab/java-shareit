@@ -1,66 +1,44 @@
 package ru.practicum.shareit.booking.mapper;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import org.mapstruct.*;
 import ru.practicum.shareit.booking.dto.*;
 import ru.practicum.shareit.booking.model.Booking;
-import ru.practicum.shareit.booking.model.BookingStatus;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class BookingMapper {
+@Mapper(
+        componentModel = "spring",
+        unmappedTargetPolicy = ReportingPolicy.ERROR
+)
+public interface BookingMapper {
 
-    public static BookingReturnDto toDto(Booking booking) {
-        if (booking == null) {
-            return null;
-        }
+    @Mapping(target = "item", source = "item")
+    @Mapping(target = "booker", source = "booker")
+    BookingReturnDto toDto(Booking booking);
 
-        return BookingReturnDto.builder()
-                .id(booking.getId())
-                .start(booking.getStart())
-                .end(booking.getEnd())
-                .status(booking.getStatus())
-                .item(toItemDto(booking))
-                .booker(toUserDto(booking))
-                .build();
-    }
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "name", source = "name")
+    BookingItemDto toItemDto(Item item);
 
-    private static BookingItemDto toItemDto(Booking booking) {
-        if (booking.getItem() == null) {
-            return null;
-        }
+    @Mapping(target = "id", source = "id")
+    BookingUserDto toUserDto(User user);
 
-        return BookingItemDto.builder()
-                .id(booking.getItem().getId())
-                .name(booking.getItem().getName())
-                .build();
-    }
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "item", source = "item")
+    @Mapping(target = "booker", source = "booker")
+    @Mapping(target = "status", constant = "WAITING")
+    @Mapping(target = "start", source = "dto.start")
+    @Mapping(target = "end", source = "dto.end")
+    Booking toEntity(BookingCreateDto dto, Item item, User booker);
 
-    private static BookingUserDto toUserDto(Booking booking) {
-        if (booking.getBooker() == null) {
-            return null;
-        }
-
-        return BookingUserDto.builder()
-                .id(booking.getBooker().getId())
-                .build();
-    }
-
-    public static Booking toEntity(BookingCreateDto dto, Item item, User booker) {
-        if (dto == null) {
-            return null;
-        }
+    @BeforeMapping
+    default void validate(
+            BookingCreateDto dto,
+            Item item,
+            User booker
+    ) {
         if (item == null || booker == null) {
             throw new IllegalArgumentException("Item and booker must not be null");
         }
-
-        Booking booking = new Booking();
-        booking.setItem(item);
-        booking.setBooker(booker);
-        booking.setStart(dto.getStart());
-        booking.setEnd(dto.getEnd());
-        booking.setStatus(BookingStatus.WAITING);
-        return booking;
     }
 }

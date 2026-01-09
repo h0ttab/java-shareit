@@ -28,6 +28,7 @@ public class BookingServiceImpl implements BookingService {
     private final BookingRepository bookingRepository;
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
+    private final BookingMapper bookingMapper;
 
     @Override
     @Transactional
@@ -56,9 +57,9 @@ public class BookingServiceImpl implements BookingService {
             throw new BadRequestException("Booking intersects with existing booking");
         }
 
-        Booking booking = BookingMapper.toEntity(dto, item, booker);
+        Booking booking = bookingMapper.toEntity(dto, item, booker);
 
-        return BookingMapper.toDto(bookingRepository.save(booking));
+        return bookingMapper.toDto(bookingRepository.save(booking));
     }
 
     @Override
@@ -74,7 +75,7 @@ public class BookingServiceImpl implements BookingService {
         }
 
         booking.setStatus(approved ? BookingStatus.APPROVED : BookingStatus.REJECTED);
-        return BookingMapper.toDto(bookingRepository.save(booking));
+        return bookingMapper.toDto(bookingRepository.save(booking));
     }
 
     @Override
@@ -85,7 +86,7 @@ public class BookingServiceImpl implements BookingService {
                 && !booking.getItem().getOwner().getId().equals(userId)) {
             throw new NotFoundException("Booking not accessible");
         }
-        return BookingMapper.toDto(booking);
+        return bookingMapper.toDto(booking);
     }
 
     @Override
@@ -130,7 +131,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     private List<BookingReturnDto> map(List<Booking> bookings) {
-        return bookings.stream().map(BookingMapper::toDto).toList();
+        return bookings.stream().map(bookingMapper::toDto).toList();
     }
 
     private Booking getBooking(Long bookingId) {
