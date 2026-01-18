@@ -1,17 +1,21 @@
 package ru.practicum.shareit.item.mapper;
 
-import org.springframework.stereotype.Component;
-import ru.practicum.shareit.item.dto.ItemReturnDto;
+import org.mapstruct.*;
+import ru.practicum.shareit.item.dto.*;
 import ru.practicum.shareit.item.model.Item;
 
-@Component
-public class ItemMapper {
-    public ItemReturnDto toItemReturnDto(Item item) {
-        return new ItemReturnDto(
-                item.getId(),
-                item.getName(),
-                item.getDescription(),
-                item.isAvailable()
-        );
-    }
+@Mapper(componentModel = "spring")
+public interface ItemMapper {
+
+    @Mapping(target = "ownerId", source = "owner.id")
+    @Mapping(target = "requestId", source = "request.id")
+    ItemReturnDto toDto(Item item);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "owner", ignore = true)
+    @Mapping(target = "request", ignore = true)
+    Item toModel(ItemCreateDto dto);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateItemFromDto(ItemUpdateDto dto, @MappingTarget Item item);
 }
